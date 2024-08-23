@@ -23,6 +23,10 @@ func main() {
 
 	mux.Handle("/api/v1/user/", auth.Authenticate(users.UserMux()))
 
-	http.ListenAndServe(":8080", mux)
+	err := http.ListenAndServe(":7070", mux)
+	if err != nil {
+		logger.Error(err.Error())
+	}
+
 	logger.Info("Server stopped")
 }

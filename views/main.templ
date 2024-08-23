@@ -1,0 +1,22 @@
+package views
+
+templ Main() {
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>demo</title>
+			<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+			<link rel="stylesheet" href="/assets/css/bootstrap-icons.css"/>
+			<link rel="stylesheet" href="/assets/css/main.css"/>
+		</head>
+		<body>
+			<div class="container-fluid">
+				@NavBar()
+				{ children... }
+			</div>
+			<script src="/assets/js/bootstrap.bundle.min.js"></script>
+			<script src="/assets/js/htmx.min.js"></script>
+		</body>
+	</html>
+}
