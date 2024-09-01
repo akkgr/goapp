@@ -1,14 +1,23 @@
 package main
 
 import (
+	"embed"
 	"goapp/auth"
 	"goapp/users"
 	"goapp/views"
+	"io/fs"
 	"log/slog"
 	"net/http"
-
-	"github.com/a-h/templ"
 )
+
+//go:embed wwwroot/css/*
+//go:embed wwwroot/js/*
+var staticFS embed.FS
+
+func static() fs.FS {
+	res, _ := fs.Sub(staticFS, "wwwroot")
+	return res
+}
 
 func main() {
 	logger := slog.Default()
@@ -16,9 +25,9 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	mux.Handle("/", templ.Handler(views.Home()))
+	mux.Handle("/", http.HandlerFunc(views.Home))
 
-	fileHandler := http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets")))
+	fileHandler := http.StripPrefix("/assets/", http.FileServer(http.FS(static())))
 	mux.Handle("/assets/", fileHandler)
 
 	mux.Handle("/api/v1/user/", auth.Authenticate(users.UserMux()))
