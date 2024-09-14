@@ -20,8 +20,9 @@ func static() fs.FS {
 }
 
 func main() {
+	port := ":7070"
 	logger := slog.Default()
-	logger.Info("Starting server")
+	logger.Info("Starting server", slog.String("port", port))
 
 	mux := http.NewServeMux()
 
@@ -32,7 +33,7 @@ func main() {
 
 	mux.Handle("/api/v1/user/", auth.Authenticate(users.UserMux()))
 
-	err := http.ListenAndServe(":7070", mux)
+	err := http.ListenAndServe(port, mux)
 	if err != nil {
 		logger.Error(err.Error())
 	}
